@@ -59,7 +59,7 @@ int main() {
     cout << endl;
 
     cb.submitMove("D1", "E2");
-    cb.submitMove("D5", "E4");
+		cb.submitMove("D5", "E4");
     cout << endl;
 
     cb.submitMove("D3", "E4");
@@ -76,6 +76,5 @@ int main() {
 
     cb.submitMove("D3", "G6");
     cout << endl;
-
     return 0;
 }
