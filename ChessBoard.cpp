@@ -42,7 +42,7 @@ ChessBoard::~ChessBoard(){
 	delete kw;
 	delete kb;
 	for (string a="A1";a[0]<'I';a[0]++){
-		for (a[0]='1';a[1]<'9';a[1]++)
+		for (a[1]='1';a[1]<'9';a[1]++)
 			board[a]=NULL;
 	}
 }
