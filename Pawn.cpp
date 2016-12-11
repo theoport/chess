@@ -18,39 +18,51 @@ void Pawn::submitMove(const string init,const string dest){
 		return;
 	}
 	if (color=="White"){
-		if ((dest[1]==init[1]+1)&&chessboard->empty(dest)){
-			if(!chessboard->move_into_check(init,dest))
+		if (dest[0]==init[0]){
+			if ((dest[1]==init[1]+1)&&chessboard->empty(dest)&&!chessboard->move_into_check(init,dest))
 				chessboard->move(init,dest);
-		}
-		else if ((dest[1]==init[1]+2)&&(init[1]=='2')&&(chessboard->empty(dest))){
-			string temp="A1";
-			temp[0]=dest[0];
-			temp[1]=dest[1]-1;
-			if(!chessboard->move_into_check(init,dest)&&chessboard->empty(temp))
-				chessboard->move(init,dest);
+			else if ((dest[1]==init[1]+2)&&(init[1]=='2')&&(chessboard->empty(dest))){
+				string temp="A1";
+				temp[0]=dest[0];
+				temp[1]=dest[1]-1;
+				if(!chessboard->move_into_check(init,dest)&&chessboard->empty(temp))
+					chessboard->move(init,dest);
+				else
+					chessboard->no_move(init,dest);
+			}
+			else
+				chessboard->no_move(init,dest);
 		}
 		else if(((dest[0]==init[0]+1)||(dest[0]==init[0]-1))&&(dest[1]==init[1]+1)){
-			if(chessboard->different_color(init,dest)&&!chessboard->move_into_check(init,dest))
+			if(!chessboard->empty(dest)&&chessboard->different_color(init,dest)&&!chessboard->move_into_check(init,dest))
 				chessboard->take(init,dest);
+			else
+				chessboard->no_move(init,dest);
 		}
 		else
 			chessboard->no_move(init,dest);
 	}
-	else if (color=="Black"){
-		if ((dest[1]==init[1]-1)&&chessboard->empty(dest)){
-			if(!chessboard->move_into_check(init,dest))
+	else{
+		if (dest[0]==init[0]){
+			if ((dest[1]==init[1]-1)&&chessboard->empty(dest)&&!chessboard->move_into_check(init,dest))
 				chessboard->move(init,dest);
+			else if ((dest[1]==init[1]-2)&&(init[1]=='7')&&(chessboard->empty(dest))){
+				string temp="A1";
+				temp[0]=dest[0];
+				temp[1]=dest[1]+1;
+				if(!chessboard->move_into_check(init,dest)&&chessboard->empty(temp))
+					chessboard->move(init,dest);
+				else
+					chessboard->no_move(init,dest);
+			}
+			else
+				chessboard->no_move(init,dest);
 		}
-		else if ((dest[1]==init[1]-2)&&(init[1]=='7')&&(chessboard->empty(dest))){
-			string temp="A1";
-			temp[0]=dest[0];
-			temp[1]=dest[1]+1;
-			if(!chessboard->move_into_check(init,dest)&&chessboard->empty(temp))
-				chessboard->move(init,dest);
-		}
-		else if(((dest[0]==init[0]-1)||(dest[0]==init[0]+1))&&(dest[1]==init[1]-1)){
-			if(chessboard->different_color(init,dest)&&!chessboard->move_into_check(init,dest))
+		else if(((dest[0]==init[0]+1)||(dest[0]==init[0]-1))&&(dest[1]==init[1]-1)){
+			if(!chessboard->empty(dest)&&chessboard->different_color(init,dest)&&!chessboard->move_into_check(init,dest))
 				chessboard->take(init,dest);
+			else
+				chessboard->no_move(init,dest);
 		}
 		else
 			chessboard->no_move(init,dest);

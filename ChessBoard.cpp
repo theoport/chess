@@ -197,13 +197,10 @@ bool ChessBoard::free_diagonal(const string a,const string b){
 }
 bool ChessBoard::move_into_check(const string a, const string b){
 	if (board[a]->get_type()=="King"){
-		for (string i="A1";i[0]<'I';i[0]++){
-			for (i[1]='1';i[1]<'9';i[1]++){
-				if (board[i]&&different_color(i,a)&&board[i]->valid_move(i,b))
-					return true;
-			}
-		}
-		return false;
+		if (white_turn)
+			white_king=b;
+		else
+			black_king=b;
 	}	
 	Chesspiece* temp;
 	temp=board[b];
@@ -212,10 +209,22 @@ bool ChessBoard::move_into_check(const string a, const string b){
 	if (in_check()){
 		board[a]=board[b];
 		board[b]=temp;
+		if (board[a]->get_type()=="King"){
+			if (white_turn)
+				white_king=a;
+			else
+				black_king=a;
+		}			
 		return true;
 	}
 	board[a]=board[b];
 	board[b]=temp;
+	if (board[a]->get_type()=="King"){
+		if (white_turn)
+			white_king=a;
+		else
+			black_king=a;
+	}			
 	return false;
 }
 bool ChessBoard::in_check(){
@@ -285,6 +294,7 @@ void ChessBoard::resetBoard(){
 	board["E8"]=kb;
 	board["F8"]=bb;
 	board["G8"]=hb;
+	board["H8"]=rb;
 	white_turn=true;
 	white_king="E1";
 	black_king="E8";
@@ -308,12 +318,12 @@ bool ChessBoard::correct_input(const string init, const string dest){
 		}	
 		return false;
 	}
-	else if((init[0]<='z'&&init[0]>='a')||(dest[0]<='z'&&dest[0]>='a')){
-		if ((init[0]<='z'&&init[0]>='a')&&(dest[0]<='z'&&dest[0]>='a')){
+	else if((init[0]<='h'&&init[0]>='a')||(dest[0]<='h'&&dest[0]>='a')){
+		if ((init[0]<='h'&&init[0]>='a')&&(dest[0]<='h'&&dest[0]>='a')){
 			cout<<"Column "<<init[0]<<" in starting field and column "<<dest[0];
 			cout<<" in destination field have to be a capital letter."<<endl;
 		}
-		else if(init[0]<='z'&&init[0]>='a'){
+		else if(init[0]<='h'&&init[0]>='a'){
 			cout<<"Column "<<init[0]<<" in starting field has to";
 			cout<<" be in capital letters."<<endl;
 		}
@@ -323,19 +333,19 @@ bool ChessBoard::correct_input(const string init, const string dest){
 		}
 		return false;
 	}
-	else if((init[0]>'Z'||init[0]<'A')||(dest[0]>'Z'&&dest[0]<'A')){
-		if ((init[0]>'Z'||init[0]<'A')&&(dest[0]>'Z'&&dest[0]<'A')){
+	else if((init[0]>'H'||init[0]<'A')||(dest[0]>'H'||dest[0]<'A')){
+		if ((init[0]>'H'||init[0]<'A')&&(dest[0]>'H'||dest[0]<'A')){
 			cout<<"Column "<<init[0]<<" in starting field and column "<<dest[0];
 			cout<<" in destination field do not exist."<<endl;
 		}
-		else if(init[0]>'Z'||init[0]<'A')
+		else if(init[0]>'H'||init[0]<'A')
 			cout<<"Column "<<init[0]<<" in starting field does not exist."<<endl;
 		else 
 			cout<<"Column "<<dest[0]<<" in destination field does not exist."<<endl;
 		return false;
 	}
-	else if((init[1]>'8'||init[1]<'1')||(dest[1]>'8'&&dest[1]<'1')){
-		if ((init[1]>'8'||init[1]<'1')&&(dest[1]>'8'&&dest[1]<'1')){
+	else if((init[1]>'8'||init[1]<'1')||(dest[1]>'8'||dest[1]<'1')){
+		if ((init[1]>'8'||init[1]<'1')&&(dest[1]>'8'||dest[1]<'1')){
 			cout<<"Row "<<init[1]<<" in starting field and row "<<dest[1];
 			cout<<" in destination field do not exist."<<endl;
 		}
