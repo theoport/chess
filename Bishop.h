@@ -8,8 +8,6 @@
 
 class Bishop:public Chesspiece
 {
-private:
-	static const int SURROUNDING=4;
 public:
 	Bishop(std::string color,ChessBoard* chessboard);
 	void submitMove(const std::string init,const std::string dest);

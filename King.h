@@ -8,8 +8,6 @@
 
 class King:public Chesspiece 
 {
-private:
-	static const int SURROUNDING=8;
 public:
 	King(std::string color,ChessBoard* chessboard);
 	void submitMove(const std::string init,const std::string dest);

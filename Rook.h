@@ -8,8 +8,6 @@
 
 class Rook : public Chesspiece
 {
-private:
-	static const int SURROUNDING=4;
 public:
 	Rook(std::string color,ChessBoard* chessboard);
 	void submitMove(const std::string init, const std::string dest);

@@ -12,53 +12,40 @@ Knight::Knight(string color, ChessBoard* chessboard):Chesspiece(color, "Knight",
 	
 }
 void Knight::submitMove(const string init,const  string dest){
+	//Checks if destination field is the same as starting field:
 	if (init==dest){
 		cout<<"That is not a move."<<endl;
 		return;
 	}
+	//takes appropriate action if move from "init" to "dest" is legal:
 	else if (valid_move(init,dest)&&!chessboard->move_into_check(init,dest)){
 		if (chessboard->empty(dest))
 			chessboard->move(init,dest);
 		else if (chessboard->different_color(init,dest))
 			chessboard->take(init,dest);
+		//move not legal:
 		else
 			chessboard->no_move(init,dest);
 	}
+		//move not legal:
 	else
 		chessboard->no_move(init,dest);
 }	
 
 bool Knight::can_move(const string init){
-	string pos[SURROUNDING];
-	for (int n=0;n<8;n++)
-		pos[n]="A1";
-	pos[0][0]=init[0]+2;
-	pos[0][1]=init[1]+1;
-	pos[1][0]=init[0]+1;
-	pos[1][1]=init[1]+2;
-	pos[2][0]=init[0]-2;
-	pos[2][1]=init[1]-1;
-	pos[3][0]=init[0]-1;
-	pos[3][1]=init[1]-2;
-	pos[4][0]=init[0]+2;
-	pos[4][1]=init[1]-1;
-	pos[5][0]=init[0]-1;
-	pos[5][1]=init[1]+2;
-	pos[6][0]=init[0]-2;
-	pos[6][1]=init[1]+1;
-	pos[7][0]=init[0]+1;
-	pos[7][1]=init[1]-2;
-	for (int n=0;n<SURROUNDING;n++){
-		if (pos[n][0]<'A'||pos[n][0]>'H'||pos[n][1]<'1'||pos[n][1]>'8')
-			pos[n]="NULL";
-	}
-	for (int n=0;n<SURROUNDING;n++){
-		if ((pos[n]!="NULL")&&valid_move(init,pos[n])&&chessboard->EoD(pos[n],init)&&!chessboard->move_into_check(init,pos[n]))
-			return true;
+	//loops through whole board to test if piece can move anywhere:
+	for (string temp="A1";temp[0]<'I';temp[0]++){
+		for (temp[1]=1;temp[1]<'9';temp[1]++){
+			if ((temp!=init)&&valid_move(init,temp)&&chessboard->EoD(temp,init)
+					&&!chessboard->move_into_check(init,temp))
+				return true;
+		}
 	}
 	return false;
 }
 bool Knight::valid_move(const string init, const string dest){
+	/*returns true if "init" to "dest" is a valid move without testing for check, or 
+		occupation of destination field, returns false otherwise.*/
 	int diff_C, diff_R;
 	diff_C=abs(init[0]-dest[0]);
 	diff_R=abs(init[1]-dest[1]);
