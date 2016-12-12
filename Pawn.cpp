@@ -13,7 +13,7 @@ Pawn::Pawn(string color, ChessBoard* chessboard):Chesspiece(color, "Pawn",chessb
 	
 }
 void Pawn::submitMove(const string init,const string dest){
-	//checks if destination field is same as starting field
+	//checks if destination field is same as starting field:
 	if (init==dest){
 		cout<<init<<" to "<<dest<<" is not a move."<<endl;
 		return;
